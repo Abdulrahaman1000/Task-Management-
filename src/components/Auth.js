@@ -1,4 +1,3 @@
-// src/components/Auth.js
 import React, { useState } from 'react';
 import { supabase } from '../supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,7 @@ const Auth = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const navigate = useNavigate();
 
-  // Validation functions
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) return 'Email is required';
@@ -28,7 +27,7 @@ const Auth = () => {
     if (password.length > 128) return 'Password is too long';
     
     if (isSignup) {
-      // More strict validation for signup
+      
       if (!/(?=.*[a-z])/.test(password)) return 'Password must contain at least one lowercase letter';
       if (!/(?=.*[A-Z])/.test(password)) return 'Password must contain at least one uppercase letter';
       if (!/(?=.*\d)/.test(password)) return 'Password must contain at least one number';
@@ -45,11 +44,11 @@ const Auth = () => {
   const validateForm = () => {
     const errors = {};
     
-    // Validate email
+
     const emailError = validateEmail(email);
     if (emailError) errors.email = emailError;
     
-    // Validate password
+    
     const passwordError = validatePassword(password, !isLogin);
     if (passwordError) errors.password = passwordError;
     
@@ -67,7 +66,7 @@ const Auth = () => {
     setTimeout(() => setError(null), 5000);
   };
 
-  // Alert component
+ 
   const Alert = ({ message, type }) => (
     <div className={`fixed top-4 right-4 z-50 px-6 py-4 rounded-lg shadow-lg transform transition-all duration-300 ${
       type === 'success' 
@@ -81,22 +80,22 @@ const Auth = () => {
     </div>
   );
 
-  // Real-time validation on input change
+
   const handleEmailChange = (e) => {
     const value = sanitizeInput(e.target.value);
     setEmail(value);
     
-    // Clear validation error when user starts typing
+
     if (validationErrors.email) {
       setValidationErrors(prev => ({ ...prev, email: null }));
     }
   };
 
   const handlePasswordChange = (e) => {
-    const value = e.target.value; // Don't sanitize password to preserve special characters
+    const value = e.target.value; 
     setPassword(value);
     
-    // Clear validation error when user starts typing
+   
     if (validationErrors.password) {
       setValidationErrors(prev => ({ ...prev, password: null }));
     }
@@ -107,7 +106,7 @@ const Auth = () => {
     setError(null);
     setSuccess(null);
     
-    // Validate form before submission
+
     if (!validateForm()) {
       return;
     }
@@ -126,7 +125,7 @@ const Auth = () => {
           });
 
       if (error) {
-        // Handle specific Supabase auth errors
+   
         switch (error.message) {
           case 'Invalid login credentials':
             showError('Invalid email or password. Please check your credentials.');
@@ -158,7 +157,7 @@ const Auth = () => {
     }
   };
 
-  // Password strength indicator for signup
+
   const PasswordStrengthIndicator = ({ password }) => {
     if (isLogin || !password) return null;
     
@@ -230,7 +229,7 @@ const Auth = () => {
           </p>
         </div>
 
-        {/* Auth Form */}
+   
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/20">
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -347,7 +346,7 @@ const Auth = () => {
             </button>
           </form>
 
-          {/* Toggle Auth Mode */}
+      
           <div className="mt-8 text-center">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -375,7 +374,6 @@ const Auth = () => {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center mt-8 text-gray-500 text-sm">
           <p>Secure authentication powered by Supabase</p>
         </div>
